@@ -22,6 +22,8 @@ if [ ! -d $HOME_DIR ]
 then
 	echo "$HOME_DIR does not exist. Please edit line 15 of this script."
 	echo "If catkin_ws has not been created, then create the workspace before running rosbld."
+	echo "Try using one of the following paths, if any exist:"
+	find $HOME -type d -name 'catkin_ws'
 	exit 1
 fi
 
