@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Check difference (chkdif) script by Murray Estes
+# Simple script for checking for differences between two files
+# Usage: chkdif <file1> <file2>
+
+if [ $# -lt 2 ]
+then
+	echo "Usage: chkdif <file1> <file2>"
+	exit 1
+	fi
+diff --suppress-common-lines --side-by-side $1 $2

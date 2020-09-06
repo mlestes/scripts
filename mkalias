@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Make Alias (mkalias) script by Murray Estes
+# Simple script for making aliases in a bash_aliases file.
+# Usage: mkalias <alias name> <commands>
+# Must source bashrc file before the alias takes effect on the system.
+
+if [ $# -lt 2 ]
+then
+	echo "Usage: mkalias <alias name> <commands>"
+	exit 1
+fi
+
+ALIAS_NAME=$1
+shift
+ALIAS_CMD=$@
+
+echo alias $ALIAS_NAME=\'$ALIAS_CMD\' >> ~/.bash_aliases
