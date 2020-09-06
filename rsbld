@@ -20,7 +20,7 @@ PKG_OPTS=$@
 # Verify workspace is already created
 if [ ! -f "$HOME_DIR/src/CMakeLists.txt" ]
 then
-	echo "$HOME_DIR is not a valid workspace. Please create a workspace prior to running rosbld."
+	echo "$HOME_DIR is not a valid workspace. Please create a workspace prior to running rsbld."
 	exit 1
 fi
 
