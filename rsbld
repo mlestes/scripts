@@ -17,14 +17,34 @@ PKG_NAME=$1
 shift
 PKG_OPTS=$@
 
-# Verify workspace is already created
-if [ ! -f "$HOME_DIR/src/CMakeLists.txt" ]
+# Verify workspace is already created. Create if not.
+if [ ! -f $HOME_DIR/src/CMakeLists.txt ]
 then
-	echo "$HOME_DIR is not a valid workspace. Please create a workspace prior to running rsbld."
-	exit 1
+	echo "$HOME_DIR is not a valid workspace. Creating workspace..."
+	if [[ $HOME_DIR/ = /home/*/catkin_ws/  ]]
+	then
+		if [ ! -d $HOME_DIR/src ]
+		then
+			echo "Creating src directory in $HOME_DIR..."
+			mkdir $HOME_DIR/src
+		else
+			echo "src directory in $HOME_DIR exists."
+		fi
+		catkin_make
+	else
+		echo "Creating catkin_ws/src at $HOME_DIR..."
+		mkdir -p $HOME_DIR/catkin_ws/src
+		HOME_DIR=$(pwd)/catkin_ws
+		mv ./rsbld ./catkin_ws
+		cd $HOME_DIR
+		catkin_make
+	fi
+	echo "Catkin workspace created at $HOME_DIR"
 fi
 
+# Build the package once workspace is created
 cd $HOME_DIR/src
+echo
 if [ $PKG_OPTS ]
 then
 	echo "Creating Catkin Package $PKG_NAME with $PKG_OPTS..."
@@ -34,7 +54,9 @@ else
 	catkin_create_pkg $PKG_NAME
 fi
 cd $HOME_DIR
+echo
 catkin_make
+echo
 if [ -d "$HOME_DIR/src/$PKG_NAME/build" ]
 then
 	echo "build directory in $HOME_DIR/src/$PKG_NAME exists"
@@ -45,6 +67,7 @@ fi
 cd $HOME_DIR/src/$PKG_NAME/build
 cmake ..
 make
+echo
 if [ -d "$HOME_DIR/src/$PKG_NAME/src" ] 
 then
 	echo "src directory in $HOME_DIR/src/$PKG_NAME exists"
@@ -52,5 +75,6 @@ else
 	echo "Creating src directory in $HOME_DIR/src/$PKG_NAME..."
 	mkdir $HOME_DIR/src/$PKG_NAME/src
 fi
+echo
 echo "$PKG_NAME package creation complete."
 exit 0
