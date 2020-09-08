@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# ROS Build (rsbld) script by Murray Estes.
+# ROS Build (rosbld) script by Murray Estes.
 # Creates a catkin package for ROS projects.
-# Usage: rsbld <pkg name> [<pkg options>]. 
+# Usage: rosbld <pkg name> [<pkg options>]. 
 
 # require at least 1 argument for package name. package options are optional
 if [ $# -lt 1 ]
 then
-	echo "Usage: rsbld <pkg name> [<pkg options>]"
+	echo "Usage: rosbld <pkg name> [<pkg options>]"
 	exit 1
 fi
 
