@@ -39,6 +39,8 @@ then
 		cd $HOME_DIR
 		catkin_make
 	fi
+	echo "source $HOME_DIR/devel/setup.bash" >> ~/.bashrc
+	echo Run \''source ~/.bashrc'\' when complete.
 	echo "Catkin workspace created at $HOME_DIR"
 fi
 
