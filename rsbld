@@ -35,7 +35,6 @@ then
 		echo "Creating catkin_ws/src at $HOME_DIR..."
 		mkdir -p $HOME_DIR/catkin_ws/src
 		HOME_DIR=$(pwd)/catkin_ws
-		mv ./rsbld ./catkin_ws
 		cd $HOME_DIR
 		catkin_make
 	fi
