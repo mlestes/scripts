@@ -21,7 +21,7 @@ PKG_OPTS=$@
 if [ ! -f $HOME_DIR/src/CMakeLists.txt ]
 then
 	echo "$HOME_DIR is not a valid workspace. Creating workspace..."
-	if [[ $HOME_DIR/ = /home/*/catkin_ws/  ]]
+	if [[ $HOME_DIR/ = /*/catkin_ws/  ]]
 	then
 		if [ ! -d $HOME_DIR/src ]
 		then
@@ -46,7 +46,7 @@ fi
 # Build the package once workspace is created
 cd $HOME_DIR/src
 echo
-if [ $PKG_OPTS ]
+if [ ! -z "$PKG_OPTS" ]
 then
 	echo "Creating Catkin Package $PKG_NAME with $PKG_OPTS..."
 	catkin_create_pkg $PKG_NAME $PKG_OPTS
