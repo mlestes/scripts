@@ -1,8 +1,6 @@
 # scripts
-A collection of bash scripts I've written.
+## A collection of bash scripts I've written.
 
-chkdif - Simple script that checks for differences between files using diff suppress-common-lines side-by-side
-
-mkalias - Simple script that adds aliases to .bash_aliases file
-
-rosbld - Script that creates packages in a Catkin workspace for ROS projects.
+- [chkdif](./chkdif) - Simple script that checks for differences between files using diff suppress-common-lines side-by-side
+- [mkalias](./mkalias) - Simple script that adds aliases to .bash_aliases file
+- [rosbld](./rosbld) - Script that creates packages in a Catkin workspace for ROS projects.
