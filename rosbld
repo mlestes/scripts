@@ -41,6 +41,8 @@ then
 	echo "source $HOME_DIR/devel/setup.bash" >> ~/.bashrc
 	echo Run \''source ~/.bashrc'\' when complete.
 	echo "Catkin workspace created at $HOME_DIR"
+else
+	echo $HOME_DIR is a valid workspace.
 fi
 
 # Build the package once workspace is created
