@@ -9,4 +9,4 @@ then
 	echo "Usage: chkdif <file1> <file2>"
 	exit 1
 	fi
-diff --suppress-common-lines --side-by-side $1 $2
+diff --suppress-common-lines --side-by-side $@
