@@ -8,5 +8,13 @@ if [ $# -lt 2 ]
 then
 	echo "Usage: chkdif <file1> <file2>"
 	exit 1
-	fi
-diff --suppress-common-lines --side-by-side $@
+fi
+
+CMD=$(diff --suppress-common-lines --side-by-side $@)
+
+if [ -z "$CMD" ]
+then
+	echo "Files Match."
+else
+	echo "$CMD"
+fi
