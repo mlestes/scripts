@@ -16,6 +16,7 @@ HOME_DIR=$(pwd)
 PKG_NAME=$1
 shift
 PKG_OPTS=$@
+clear
 
 # Verify workspace is already created. Create if not.
 if [ ! -f $HOME_DIR/src/CMakeLists.txt ]
