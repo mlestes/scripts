@@ -5,7 +5,8 @@
 # Usage: chkdif <file1> <file2>
 
 OPT=""
-while getopts ":ys" opt; do
+while getopts ":ys" opt
+	do
 	case ${opt} in
 		y ) OPT="$OPT --side-by-side"
 			;;
