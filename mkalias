@@ -5,6 +5,28 @@
 # Usage: mkalias <alias name> <commands>
 # Must source bashrc file before the alias takes effect on the system.
 
+OPT=""
+while getopts ":hv" opt
+do
+	case ${opt} in
+		h ) echo "Usage: mkalias [OPTIONS] <name> <commands>"
+		    echo "       -h - Prints usage information"
+		    echo "       -v - Prints author and version information"
+		    exit 0
+		    	;;
+		v ) echo "mkalias v2.0.0 by Murray L. Estes"
+		    echo "Last updated 9 Nov 2020"
+		    exit 0
+		    	;;
+		\?) echo "Error: Invalid option passed"
+		    echo "Try 'mkalias -h' for usage information"
+		    exit 1
+		    	;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
 if [ $# -lt 2 ]
 then
 	echo "Usage: mkalias <alias name> <commands>"

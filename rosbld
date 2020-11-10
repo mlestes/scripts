@@ -5,6 +5,28 @@
 # Usage: rosbld <pkg name> [<pkg options>]. 
 
 # require at least 1 argument for package name. package options are optional
+
+while getopts ":hv" opt
+do
+	case ${opt} in
+		h ) echo "Usage: rosbld [OPTIONS] <PKG NAME> [<PKG OPTIONS>]"
+		    echo "       -h - Prints usage information"
+		    echo "       -v - Prints author and version information"
+		    exit 0
+		    	;;
+		v) echo "rosbld v1.5.0 by Murray L. Estes"
+		   echo "Last updated 9 Nov 2020"
+		   exit 0
+		   	;;
+		\? ) echo "Error: Invalid option passed"
+		     echo "Try 'rosbld -h' for usage information"
+		     exit 1
+		     	;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
 if [ $# -lt 1 ]
 then
 	echo "Usage: rosbld <pkg name> [<pkg options>]"
