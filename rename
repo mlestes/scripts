@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# rename by Murray L. Estes
+# version 0.0.1 - last updated 19 Nov 2020
+# Rename a file
+# Usage: rename [OPTION] <src> <dest>
+
+while getopts ":hv" opts
+	do
+	case ${opts} in
+		h ) echo "Usage: rename [OPTION] <src> <dest>"
+		   echo "       -h: this usage information"
+		   echo "       -v: Author and version information"
+		   exit 0
+		   ;;
+		v ) echo "rename version 0.0.1"
+		   echo "Written by Murray L. Estes"
+		   echo "Last update 19 Nov 2020"
+		   exit 0
+		   ;;
+		\? ) echo "Invalid option input"
+		   echo "try rename -h for help"
+		   exit 1
+		   ;;
+	esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -lt 2 ]
+then
+	echo "Error: insufficient input"
+	echo "try 'rename -h' for usage help"
+	exit 1
+fi
+
+SRC=$1
+DEST=$2
+cp $SRC $DEST && rm $SRC
