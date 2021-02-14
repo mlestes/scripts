@@ -1,6 +1,6 @@
 #!/bin/bash
 # remdir by Murray L. Estes
-# verion 0.0.1 - last updated 13 Feb 2021
+# verion 0.0.3 - last updated 13 Feb 2021
 # Remove a possibly non-empty directory
 # Usage: remdir <dir name>
 
@@ -9,22 +9,22 @@ nodel=0
 while getopts ":hvcn" opts
 do
 	case ${opts} in
-		h ) echo "Usage: remdir [OPTION] <dir name> [<dest dir>]"
-		    echo "      -h: this usage help"
-		    echo "      -v: Author and version info"
-		    echo "      -c: Copy contents into another directory and delete"
-		    echo "      -n: Copy contents into another directory without deleting"
-		    exit 0
-		    ;;
-		v ) echo "remdir version 0.0.1"
-		    echo "Written by Murray L. Estes"
-		    echo "Last update: 21 Feb 2021"
-		    exit 0
-		    ;;
-		c ) docpy=1
-		    ;;
-		n ) docpy=1;nodel=1
-		    ;;
+		h )  echo "Usage: remdir [OPTION] <dir name> [<dest dir>]"
+		     echo "      -h: this usage help"
+		     echo "      -v: Author and version info"
+		     echo "      -c: Copy contents into another directory and delete"
+		     echo "      -n: Copy contents into another directory without deleting"
+		     exit 0
+		     ;;
+		v )  echo "remdir version 0.0.3"
+		     echo "Written by Murray L. Estes"
+		     echo "Last update: 21 Feb 2021"
+		     exit 0
+		     ;;
+		c )  docpy=1
+		     ;;
+		n )  docpy=1;nodel=1
+		     ;;
 		\? ) echo "Invalid option input."
 		     echo "Try 'remdir -h' for usage information."
 		     exit 1
@@ -61,7 +61,10 @@ then
 	then
 		mkdir $dest
 	fi
-	cp $src/* $dest
+	if [ -n "$(ls -A $src)" ]
+	then
+		cp  $src/* $dest
+	fi
 fi
 
 if [ $nodel -eq 0 ]
