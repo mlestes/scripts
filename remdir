@@ -1,0 +1,64 @@
+#!/bin/bash
+# remdir by Murray L. Estes
+# verion 0.0.1 - last updated 13 Feb 2021
+# Remove a possibly non-empty directory
+# Usage: remdir <dir name>
+
+docpy=0
+nodel=0
+while getopts ":hvcn" opts
+do
+	case ${opts} in
+		h ) echo "Usage: remdir [OPTION] <dir name> [<dest dir>]"
+		    echo "      -h: this usage help"
+		    echo "      -v: Author and version info"
+		    echo "      -c: Copy contents into another directory and delete"
+		    echo "      -n: Copy contents into another directory without deleting"
+		    exit 0
+		    ;;
+		v ) echo "remdir version 0.0.1"
+		    echo "Written by Murray L. Estes"
+		    echo "Last update: 21 Feb 2021"
+		    exit 0
+		    ;;
+		c ) docpy=1
+		    ;;
+		n ) docpy=1;nodel=1
+		    ;;
+		\? ) echo "Invalid option input."
+		     echo "Try 'remdir -h' for usage information."
+		     exit 1
+		     ;;
+	esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -lt 1 ]
+then
+	echo "Error: insufficient input"
+	echo "Try 'remdir -h' for usage information."
+	exit 1
+fi
+
+src=$1
+if [ $docpy -eq 1 ]
+then
+	if [ $# -lt 2 ]
+	then
+		echo "Error: insufficient input"
+		echo "Try 'remdir -h' for usage information."
+		exit 1
+	fi
+	dest=$2
+	if [ ! -d $dest ]
+	then
+		mkdir $dest
+	fi
+	cp $src/* $dest
+fi
+
+if [ $nodel -eq 0 ]
+then
+	rm -f $src/* && rmdir $src
+fi
+exit 0
