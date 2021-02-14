@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # rename by Murray L. Estes
-# version 0.0.1 - last updated 19 Nov 2020
+# version 0.0.2 - last updated 13 Feb 2021
 # Rename a file
 # Usage: rename [OPTION] <src> <dest>
 
@@ -13,9 +13,9 @@ while getopts ":hv" opts
 		   echo "       -v: Author and version information"
 		   exit 0
 		   ;;
-		v ) echo "rename version 0.0.1"
+		v ) echo "rename version 0.0.2"
 		   echo "Written by Murray L. Estes"
-		   echo "Last update 19 Nov 2020"
+		   echo "Last update 13 Feb 2021"
 		   exit 0
 		   ;;
 		\? ) echo "Invalid option input"
@@ -33,6 +33,6 @@ then
 	exit 1
 fi
 
-SRC=$1
-DEST=$2
-cp $SRC $DEST && rm $SRC
+SRC="$1"
+DEST="$2"
+cp "$SRC" "$DEST" && rm "$SRC"
