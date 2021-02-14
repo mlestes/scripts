@@ -41,7 +41,7 @@ then
 fi
 
 src=$1
-if [ ! -d $src ]
+if [ ! -d "$src" ]
 then
 	echo "Error: $src is not a directory."
 	echo "Try 'remdir -h' for usage information."
@@ -57,18 +57,18 @@ then
 		exit 1
 	fi
 	dest=$2
-	if [ ! -d $dest ]
+	if [ ! -d "$dest" ]
 	then
-		mkdir $dest
+		mkdir "$dest"
 	fi
-	if [ -n "$(ls -A $src)" ]
+	if [ -n '$(ls -A "$src")' ]
 	then
-		cp  $src/* $dest
+		cp  "$src"/* "$dest"
 	fi
 fi
 
 if [ $nodel -eq 0 ]
 then
-	rm -f $src/* && rmdir $src
+	rm -f "$src"/* && rmdir "$src"
 fi
 exit 0
