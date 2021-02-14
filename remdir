@@ -41,6 +41,13 @@ then
 fi
 
 src=$1
+if [ ! -d $src ]
+then
+	echo "Error: $src is not a directory."
+	echo "Try 'remdir -h' for usage information."
+	exit 1
+fi
+
 if [ $docpy -eq 1 ]
 then
 	if [ $# -lt 2 ]
