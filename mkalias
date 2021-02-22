@@ -33,10 +33,10 @@ then
 	exit 1
 fi
 
-ALIAS_NAME=$1
+ALIAS_NAME="$1"
 shift
-ALIAS_CMD=$@
+ALIAS_CMD="$@"
 
-echo alias $ALIAS_NAME=\'$ALIAS_CMD\' >> ~/.bash_aliases
+echo alias "$ALIAS_NAME"=\'$ALIAS_CMD\' >> ~/.bash_aliases
 echo "Run 'source ~/.bashrc' for the new alias $ALIAS_NAME to take effect."
 exit 0
