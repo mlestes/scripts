@@ -1,29 +1,53 @@
 #!/bin/bash
 # remap
-# Version 0.0.1 - Last updated 28 Apr 2021
 # Remaps the keyboard from arrowkeys to WASD
 # Usage: remap -r => remaps to WASD
 # Usage: remap -n => reverts to normal
+# Usage: remap -t => remaps to Numpad (8456)
 
+date="29 Apr 2021"
+auth="Murray L. Estes"
+verno="0.0.3"
 wasd=0
 norm=0
-while getopts ":rn" opts
+tkey=0
+let argcnt=0
+while getopts ":hrntv" opts
 do
 	case ${opts} in
+		h) echo 'Usage: remap OPTION'
+		   echo '       -h: this help'
+		   echo '       -r: WASD mapping'
+		   echo '       -t: NumPad mapping'
+		   echo '       -n: normal mapping'
+		   echo '       -v: version'
+		   exit 0
+		   ;;
 		r) wasd=1
 			;;
 		n) norm=1
 			;;
+		t) tkey=1
+			;;
+		v) echo remap version $verno
+		   echo Author: $auth
+	   	   echo Last modified: $date
+		   exit 0
+		   ;;	   
 		\?) echo Usage 'remap -r | -n'
 			;;
 	esac
+	let argcnt++
 done
 shift $((OPTIND - 1))
 
-if [ $wasd -eq 1 -a $norm -eq 1 ]
+if [ $argcnt -ne 1 ]
 then
-	echo Usage error: use only one option. Only use -r or -n
-	exit -1
+	echo Usage error: Use one option
+	echo '             -n for normal mapping'
+	echo '             -r for WASD mapping'
+	echo '             -t for NumPad mapping'
+	exit 1
 fi
 
 if [ $wasd -eq 1 ]
@@ -32,6 +56,7 @@ then
 	xmodmap -e "keycode 38 = Left" # a => Left
 	xmodmap -e "keycode 39 = Down" # s => Down
 	xmodmap -e "keycode 40 = Right" # d => Right
+	echo 'ARROW_KEYS => WASD'
 fi
 
 
@@ -41,10 +66,18 @@ then
 	xmodmap -e "keycode 38 = a A a A ae AE" # a => a
 	xmodmap -e "keycode 39 = s S s S scaron Scaron" # s => s
 	xmodmap -e "keycode 40 = d D d D eth ETH" # d => d
+	xmodmap -e "keycode 80 = KP_Up KP_8"
+	xmodmap -e "keycode 83 = KP_Left KP_4"
+	xmodmap -e "keycode 84 = KP_5"
+	xmodmap -e "keycode 85 = KP_Right KP_6"
+	echo 'ARROW_KEYS => ARROW_KEYS'
 fi
 
-if [ $norm -eq 0 -a $wasd -eq 0 ]
+if [ $tkey -eq 1 ]
 then
-	echo Usage: 'remap -r | remap -n'
-	exit 1
+	xmodmap -e "keycode 80 = Up" # Num8 => Up
+	xmodmap -e "keycode 83 = Left" # Num4 = Left
+	xmodmap -e "keycode 84 = Down" # Num5 = Down
+	xmodmap -e "keycode 85 = Right" # Num6 = Right
+	echo 'ARROW_KEYS => NUMPAD_8456'
 fi
