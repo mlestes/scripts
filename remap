@@ -20,6 +20,12 @@ do
 done
 shift $((OPTIND - 1))
 
+if [ $wasd -eq 1 -a $norm -eq 1 ]
+then
+	echo Usage error: use only one option. Only use -r or -n
+	exit -1
+fi
+
 if [ $wasd -eq 1 ]
 then
 	xmodmap -e "keycode 25 = Up" # w => Up
