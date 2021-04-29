@@ -1,0 +1,44 @@
+#!/bin/bash
+# remap
+# Version 0.0.1 - Last updated 28 Apr 2021
+# Remaps the keyboard from arrowkeys to WASD
+# Usage: remap -r => remaps to WASD
+# Usage: remap -n => reverts to normal
+
+wasd=0
+norm=0
+while getopts ":rn" opts
+do
+	case ${opts} in
+		r) wasd=1
+			;;
+		n) norm=1
+			;;
+		\?) echo Usage 'remap -r | -n'
+			;;
+	esac
+done
+shift $((OPTIND - 1))
+
+if [ $wasd -eq 1 ]
+then
+	xmodmap -e "keycode 25 = Up" # w => Up
+	xmodmap -e "keycode 38 = Left" # a => Left
+	xmodmap -e "keycode 39 = Down" # s => Down
+	xmodmap -e "keycode 40 = Right" # d => Right
+fi
+
+
+if [ $norm -eq 1 ]
+then
+	xmodmap -e "keycode 25 = w W w W lstroke Lstroke" # w => w
+	xmodmap -e "keycode 38 = a A a A ae AE" # a => a
+	xmodmap -e "keycode 39 = s S s S scaron Scaron" # s => s
+	xmodmap -e "keycode 40 = d D d D eth ETH" # d => d
+fi
+
+if [ $norm -eq 0 -a $wasd -eq 0 ]
+then
+	echo Usage: 'remap -r | remap -n'
+	exit 1
+fi
