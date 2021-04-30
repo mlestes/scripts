@@ -1,26 +1,31 @@
 #!/bin/bash
 # remap
-# Remaps the keyboard from arrowkeys to WASD
-# Usage: remap -r => remaps to WASD
-# Usage: remap -n => reverts to normal
-# Usage: remap -t => remaps to Numpad (8456)
+# Remaps the keyboard from arrowkeys to WASD/IJKL/NumPad
+# Usage: remap -w => remaps to WASD
+# Usage: remap -i => remaps to IJKL
+# Usage: remap -n => remaps to NumPad
+# Usage: remap [NO OPTION] reverts to normal layout
 
 date="29 Apr 2021"
 auth="Murray L. Estes"
-verno="0.0.4"
+verno="0.0.5"
 wasd=0
 npad=0
+ijkl=0
 let argcnt=0
-while getopts ":hwnv" opts
+while getopts ":hiwnv" opts
 do
 	case ${opts} in
 		h) echo 'Usage: remap OPTION'
 		   echo '       -h: this help'
 		   echo '       -w: WASD mapping'
+		   echo '       -i: IJKL mapping'
 		   echo '       -n: NumPad mapping'
 		   echo '       -v: version'
 		   exit 0
 		   ;;
+		i) ijkl=1
+			;;
 		w) wasd=1
 			;;
 		n) npad=1
@@ -43,39 +48,54 @@ then
 	echo Usage error: Use at most one option
 	echo '             -n for NumPad mapping'
 	echo '             -w for WASD mapping'
+	echo '             -i for IJKL mapping'
 	echo '             -h for usage info'
 	echo '             -v for version info'
 	exit 1
 fi
 
 #revert to normal mapping
-xmodmap -e "keycode 25 = w W w W lstroke Lstroke" # w => w
-xmodmap -e "keycode 38 = a A a A ae AE" # a => a
-xmodmap -e "keycode 39 = s S s S scaron Scaron" # s => s
-xmodmap -e "keycode 40 = d D d D eth ETH" # d => d
+xmodmap -e "keycode 25 = w W w W lstroke Lstroke"
+xmodmap -e "keycode 38 = a A a A ae AE" 
+xmodmap -e "keycode 39 = s S s S scaron Scaron" 
+xmodmap -e "keycode 40 = d D d D eth ETH" 
+xmodmap -e "keycode 31 = i I i I"
+xmodmap -e "keycode 44 = j J j J"
+xmodmap -e "keycode 45 = k K k K"
+xmodmap -e "keycode 46 = l L l L"
 xmodmap -e "keycode 80 = KP_Up KP_8"
 xmodmap -e "keycode 83 = KP_Left KP_4"
 xmodmap -e "keycode 84 = KP_5"
 xmodmap -e "keycode 85 = KP_Right KP_6"
-if [ $wasd -eq $npad ]
+
+if [ $wasd -eq $npad -a $npad -eq $ijkl ]
 then
 	echo 'ARROW_KEYS => ARROW_KEYS'
 fi
 
 if [ $wasd -eq 1 ]
 then
-	xmodmap -e "keycode 25 = Up" # w => Up
-	xmodmap -e "keycode 38 = Left" # a => Left
-	xmodmap -e "keycode 39 = Down" # s => Down
+	xmodmap -e "keycode 25 = Up"    # w => Up
+	xmodmap -e "keycode 38 = Left"  # a => Left
+	xmodmap -e "keycode 39 = Down"  # s => Down
 	xmodmap -e "keycode 40 = Right" # d => Right
 	echo 'ARROW_KEYS => WASD'
 fi
 
 if [ $npad -eq 1 ]
 then
-	xmodmap -e "keycode 80 = Up" # Num8 => Up
-	xmodmap -e "keycode 83 = Left" # Num4 = Left
-	xmodmap -e "keycode 84 = Down" # Num5 = Down
-	xmodmap -e "keycode 85 = Right" # Num6 = Right
+	xmodmap -e "keycode 80 = Up"    # Num8 => Up
+	xmodmap -e "keycode 83 = Left"  # Num4 => Left
+	xmodmap -e "keycode 84 = Down"  # Num5 => Down
+	xmodmap -e "keycode 85 = Right" # Num6 => Right
 	echo 'ARROW_KEYS => NUMPAD_8456'
+fi
+
+if [ $ijkl -eq 1 ]
+then
+	xmodmap -e "keycode 31 = Up"    # i => Up
+	xmodmap -e "keycode 44 = Left"  # j => Left
+	xmodmap -e "keycode 45 = Down"  # k => Down
+	xmodmap -e "keycode 46 = Right" # l => Right
+	echo 'ARROW_KEYS => IJKL'
 fi
