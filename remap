@@ -7,47 +7,59 @@
 
 date="29 Apr 2021"
 auth="Murray L. Estes"
-verno="0.0.3"
+verno="0.0.4"
 wasd=0
-norm=0
-tkey=0
+npad=0
 let argcnt=0
-while getopts ":hrntv" opts
+while getopts ":hwnv" opts
 do
 	case ${opts} in
 		h) echo 'Usage: remap OPTION'
 		   echo '       -h: this help'
-		   echo '       -r: WASD mapping'
-		   echo '       -t: NumPad mapping'
-		   echo '       -n: normal mapping'
+		   echo '       -w: WASD mapping'
+		   echo '       -n: NumPad mapping'
 		   echo '       -v: version'
 		   exit 0
 		   ;;
-		r) wasd=1
+		w) wasd=1
 			;;
-		n) norm=1
-			;;
-		t) tkey=1
+		n) npad=1
 			;;
 		v) echo remap version $verno
 		   echo Author: $auth
 	   	   echo Last modified: $date
 		   exit 0
 		   ;;	   
-		\?) echo Usage 'remap -r | -n'
+		\?) echo Usage 'remap -w | -n'
+		    exit 1
 			;;
 	esac
 	let argcnt++
 done
 shift $((OPTIND - 1))
 
-if [ $argcnt -ne 1 ]
+if [ $argcnt -gt 1 ]
 then
-	echo Usage error: Use one option
-	echo '             -n for normal mapping'
-	echo '             -r for WASD mapping'
-	echo '             -t for NumPad mapping'
+	echo Usage error: Use at most one option
+	echo '             -n for NumPad mapping'
+	echo '             -w for WASD mapping'
+	echo '             -h for usage info'
+	echo '             -v for version info'
 	exit 1
+fi
+
+#revert to normal mapping
+xmodmap -e "keycode 25 = w W w W lstroke Lstroke" # w => w
+xmodmap -e "keycode 38 = a A a A ae AE" # a => a
+xmodmap -e "keycode 39 = s S s S scaron Scaron" # s => s
+xmodmap -e "keycode 40 = d D d D eth ETH" # d => d
+xmodmap -e "keycode 80 = KP_Up KP_8"
+xmodmap -e "keycode 83 = KP_Left KP_4"
+xmodmap -e "keycode 84 = KP_5"
+xmodmap -e "keycode 85 = KP_Right KP_6"
+if [ $wasd -eq $npad ]
+then
+	echo 'ARROW_KEYS => ARROW_KEYS'
 fi
 
 if [ $wasd -eq 1 ]
@@ -59,21 +71,7 @@ then
 	echo 'ARROW_KEYS => WASD'
 fi
 
-
-if [ $norm -eq 1 ]
-then
-	xmodmap -e "keycode 25 = w W w W lstroke Lstroke" # w => w
-	xmodmap -e "keycode 38 = a A a A ae AE" # a => a
-	xmodmap -e "keycode 39 = s S s S scaron Scaron" # s => s
-	xmodmap -e "keycode 40 = d D d D eth ETH" # d => d
-	xmodmap -e "keycode 80 = KP_Up KP_8"
-	xmodmap -e "keycode 83 = KP_Left KP_4"
-	xmodmap -e "keycode 84 = KP_5"
-	xmodmap -e "keycode 85 = KP_Right KP_6"
-	echo 'ARROW_KEYS => ARROW_KEYS'
-fi
-
-if [ $tkey -eq 1 ]
+if [ $npad -eq 1 ]
 then
 	xmodmap -e "keycode 80 = Up" # Num8 => Up
 	xmodmap -e "keycode 83 = Left" # Num4 = Left
