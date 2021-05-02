@@ -8,7 +8,8 @@
 
 date="29 Apr 2021"
 auth="Murray L. Estes"
-verno="0.0.5"
+verno="0.0.6"
+file="/tmp/remap_state.dat"
 wasd=0
 npad=0
 ijkl=0
@@ -43,6 +44,13 @@ do
 done
 shift $((OPTIND - 1))
 
+if [ ! -f $file ]
+then
+	old_remap_state="ARROW_KEYS"
+else
+	old_remap_state=$(cat $file)
+fi
+
 if [ $argcnt -gt 1 ]
 then
 	echo Usage error: Use at most one option
@@ -70,7 +78,7 @@ xmodmap -e "keycode 85 = KP_Right KP_6"
 
 if [ $wasd -eq $npad -a $npad -eq $ijkl ]
 then
-	echo 'ARROW_KEYS => ARROW_KEYS'
+	remap_state="ARROW_KEYS"
 fi
 
 if [ $wasd -eq 1 ]
@@ -79,7 +87,7 @@ then
 	xmodmap -e "keycode 38 = Left"  # a => Left
 	xmodmap -e "keycode 39 = Down"  # s => Down
 	xmodmap -e "keycode 40 = Right" # d => Right
-	echo 'ARROW_KEYS => WASD'
+	remap_state="WASD"
 fi
 
 if [ $npad -eq 1 ]
@@ -88,7 +96,7 @@ then
 	xmodmap -e "keycode 83 = Left"  # Num4 => Left
 	xmodmap -e "keycode 84 = Down"  # Num5 => Down
 	xmodmap -e "keycode 85 = Right" # Num6 => Right
-	echo 'ARROW_KEYS => NUMPAD_8456'
+	remap_state="NUMPAD_8456"
 fi
 
 if [ $ijkl -eq 1 ]
@@ -97,5 +105,8 @@ then
 	xmodmap -e "keycode 44 = Left"  # j => Left
 	xmodmap -e "keycode 45 = Down"  # k => Down
 	xmodmap -e "keycode 46 = Right" # l => Right
-	echo 'ARROW_KEYS => IJKL'
+	remap_state="IJKL"
 fi
+
+echo "$old_remap_state => $remap_state"
+echo $remap_state > $file
