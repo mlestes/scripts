@@ -17,11 +17,15 @@ let argcnt=0
 while getopts ":hiwnvs" opts
 do
 	case ${opts} in
-		h) echo 'Usage: remap OPTION'
-		   echo '       -h: this help'
+		h) echo 'remap: Remaps arrow keys to other configurations'
+		   echo 'Use only one option'
+		   echo 'Usage: remap [OPTION]'
+		   echo '       no option: normal mapping'
 		   echo '       -w: WASD mapping'
 		   echo '       -i: IJKL mapping'
 		   echo '       -n: NumPad mapping'
+		   echo '       -s: current mapping'
+		   echo '       -h: this help'
 		   echo '       -v: version'
 		   exit 0
 		   ;;
@@ -31,7 +35,7 @@ do
 			;;
 		n) npad=1
 			;;
-		s) echo mapping is currently $(cat $file)
+		s) echo Mapping is currently $(cat $file)
 		   exit 0
 			;;
 		v) echo remap version $verno
@@ -39,7 +43,8 @@ do
 	   	   echo Last modified: $date
 		   exit 0
 		   ;;	   
-		\?) echo Usage 'remap -w | -n'
+		\?) echo Usage error: Invalid option passed
+		    echo Use \'remap -h\' for more information
 		    exit 1
 			;;
 	esac
@@ -57,11 +62,7 @@ fi
 if [ $argcnt -gt 1 ]
 then
 	echo Usage error: Use at most one option
-	echo '             -n for NumPad mapping'
-	echo '             -w for WASD mapping'
-	echo '             -i for IJKL mapping'
-	echo '             -h for usage info'
-	echo '             -v for version info'
+	echo Use \'remap -h\' for more information
 	exit 1
 fi
 
