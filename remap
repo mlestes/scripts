@@ -6,15 +6,15 @@
 # Usage: remap -n => remaps to NumPad
 # Usage: remap [NO OPTION] reverts to normal layout
 
-date="29 Apr 2021"
+date="3 May 2021"
 auth="Murray L. Estes"
-verno="0.0.6"
+verno="0.0.7"
 file="/tmp/remap_state.dat"
 wasd=0
 npad=0
 ijkl=0
 let argcnt=0
-while getopts ":hiwnv" opts
+while getopts ":hiwnvs" opts
 do
 	case ${opts} in
 		h) echo 'Usage: remap OPTION'
@@ -30,6 +30,9 @@ do
 		w) wasd=1
 			;;
 		n) npad=1
+			;;
+		s) echo mapping is currently $(cat $file)
+		   exit 0
 			;;
 		v) echo remap version $verno
 		   echo Author: $auth
