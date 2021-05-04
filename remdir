@@ -65,7 +65,7 @@ then
 	fi
 	if [ -n '$(ls -A "$src")' ]
 	then
-		cp  "$src"/* "$dest"
+		cp -r "$src"/* "$dest"
 	fi
 fi
 
