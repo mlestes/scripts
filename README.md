@@ -6,4 +6,4 @@
 - [rosbld](./rosbld) - Script that creates packages in a Catkin workspace for ROS projects.
 - [rename](./rename) - Script that renames on file into another and removes the original.
 - [remdir](./remdir) - Script that removes a non-empty directory. Option to copy the contents of the directory to another does exist.
-- [remap](./remap) - Scrit that remaps arrow keys to another portion of the keyboard.
+- [remap](./remap) - Script that remaps arrow keys to another portion of the keyboard.
