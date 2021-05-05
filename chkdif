@@ -4,6 +4,9 @@
 # Simple script for checking for differences between two files
 # Usage: chkdif [OPTIONS] <file1> <file2>
 
+verno="1.2.1"
+auth="Murray L. Estes"
+date="5 May 2021"
 OPT=""
 while getopts ":ysihv" opt
 	do
@@ -22,8 +25,9 @@ while getopts ":ysihv" opt
 		     echo "       -h - Prints usage"
 		     exit 0
 		     	;;
-		v ) echo "chkdif v1.1.0 by Murray L. Estes"
-		    echo "Last updated 9 Nov 2020"
+		v ) echo "chkdif $verno" 
+		    echo "Author: $auth"
+		    echo "Last updated $date"
 		    exit 0
 		    	;;
 		\? ) echo "Error: Invalid option passed"
@@ -45,7 +49,19 @@ then
 	exit 1
 fi
 
-CMD=$(diff $OPT $@)
+if [ ! -f $1 ]
+then
+	echo "Error: $1 is not a valid file"
+	exit 1
+fi
+
+if [ ! -f $2 ]
+then
+	echo "Error: $2 is not a valid file"
+	exit 1
+fi
+
+CMD=$(diff $OPT $1 $2)
 
 if [ -z "$CMD" ]
 then
