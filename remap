@@ -83,7 +83,7 @@ xmodmap -e "keycode 45 = k K k K"
 xmodmap -e "keycode 46 = l L l L"
 xmodmap -e "keycode 80 = KP_Up KP_8"
 xmodmap -e "keycode 83 = KP_Left KP_4"
-xmodmap -e "keycode 84 = KP_5"
+xmodmap -e "keycode 84 = KP_Begin KP_5"
 xmodmap -e "keycode 85 = KP_Right KP_6"
 
 if [ $wasd -eq $npad -a $npad -eq $ijkl ]
