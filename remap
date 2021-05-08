@@ -6,9 +6,9 @@
 # Usage: remap -n => remaps to NumPad
 # Usage: remap [NO OPTION] reverts to normal layout
 
-date="3 May 2021"
+date="8 May 2021"
 auth="Murray L. Estes"
-verno="0.0.7"
+verno="0.0.8"
 file="/tmp/remap_state.dat"
 wasd=0
 npad=0
@@ -35,8 +35,14 @@ do
 			;;
 		n) npad=1
 			;;
-		s) echo Mapping is currently $(cat $file)
-		   exit 0
+		s) if [ -f $file ]
+		   then
+		   	echo Mapping is currently $(cat $file)
+		   	exit 0
+		   else
+			echo Mapping is currently ARROW_KEYS
+			exit 0
+		   fi
 			;;
 		v) echo remap version $verno
 		   echo Author: $auth
