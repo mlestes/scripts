@@ -4,8 +4,8 @@
 # Usage: remdir <dir name>
 
 auth="Murray L. Estes"
-date="4 May 2021"
-verno="0.0.4"
+date="6 Jun 2021"
+verno="0.0.5"
 docpy=0
 nodel=0
 while getopts ":hvcn" opts
@@ -71,6 +71,6 @@ fi
 
 if [ $nodel -eq 0 ]
 then
-	rm -rf "$src"/* && rmdir $src
+	rm -rf "$src" 
 fi
 exit 0
