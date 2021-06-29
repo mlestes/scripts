@@ -8,8 +8,8 @@
 
 date="28 June 2021"
 auth="Murray L. Estes"
-verno="0.0.9"
-file=~/tmp/remap_state.dat
+verno="0.0.10"
+file="$HOME/tmp/remap_state.dat"
 wasd=0
 npad=0
 ijkl=0
@@ -58,9 +58,9 @@ do
 done
 shift $((OPTIND - 1))
 
-if [ ! -d ~/tmp/ ]
+if [ ! -d $HOME/tmp/ ]
 then
-	mkdir ~/tmp
+	mkdir $HOME/tmp
 fi
 
 if [ ! -f $file ]
