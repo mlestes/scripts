@@ -6,10 +6,10 @@
 # Usage: remap -n => remaps to NumPad
 # Usage: remap [NO OPTION] reverts to normal layout
 
-date="28 June 2021"
+date="30 June 2021"
 auth="Murray L. Estes"
-verno="0.0.10"
-file="$HOME/tmp/remap_state.dat"
+verno="0.1.0"
+file="/tmp/remap_state.dat"
 wasd=0
 npad=0
 ijkl=0
@@ -57,11 +57,6 @@ do
 	let argcnt++
 done
 shift $((OPTIND - 1))
-
-if [ ! -d $HOME/tmp/ ]
-then
-	mkdir $HOME/tmp
-fi
 
 if [ ! -f $file ]
 then
@@ -123,7 +118,7 @@ then
 	remap_state="IJKL"
 fi
 
-if [ $wasd -eq $npad -a $npad -eq $ijkl ]
+if [ "$remap_state" = "ARROW_KEYS" ]
 then
 	rm -f $file
 else
