@@ -6,25 +6,36 @@
 # Usage: remap -n => remaps to NumPad
 # Usage: remap [NO OPTION] reverts to normal layout
 
-date="30 June 2021"
+date="20 July 2021"
 auth="Murray L. Estes"
-verno="0.1.0"
+verno="0.1.1"
 file="/tmp/remap_state.dat"
 wasd=0
 npad=0
 ijkl=0
+norm=0
+refresh=0
+
+if [ ! -f $file ]
+then
+	old_remap_state="ARROW_KEYS"	
+else
+	old_remap_state=$(cat $file)
+fi
+
 let argcnt=0
-while getopts ":hiwnvs" opts
+while getopts ":drhiwnvs" opts
 do
 	case ${opts} in
 		h) echo 'remap: Remaps arrow keys to other configurations'
 		   echo 'Use only one option'
 		   echo 'Usage: remap [OPTION]'
-		   echo '       no option: normal mapping'
+		   echo '       -d: normal mapping'
 		   echo '       -w: WASD mapping'
 		   echo '       -i: IJKL mapping'
 		   echo '       -n: NumPad mapping'
 		   echo '       -s: current mapping'
+		   echo '       -r: refreshes current mapping'
 		   echo '       -h: this help'
 		   echo '       -v: version'
 		   exit 0
@@ -35,9 +46,13 @@ do
 			;;
 		n) npad=1
 			;;
+		d) norm=1
+			;;
+		r) refresh=1
+			;;
 		s) if [ -f $file ]
 		   then
-		   	echo Mapping is currently $(cat $file)
+		   	echo Mapping is currently $old_remap_state
 		   	exit 0
 		   else
 			echo Mapping is currently ARROW_KEYS
@@ -58,21 +73,30 @@ do
 done
 shift $((OPTIND - 1))
 
-if [ ! -f $file ]
+if [ $argcnt -ne 1 ]
 then
-	old_remap_state="ARROW_KEYS"	
-else
-	old_remap_state=$(cat $file)
-fi
-
-if [ $argcnt -gt 1 ]
-then
-	echo Usage error: Use at most one option
+	echo Usage error: Option missing
 	echo Use \'remap -h\' for more information
 	exit 1
 fi
 
-#revert to normal mapping
+if [ $refresh -eq 1 ]
+then
+	if [ "$old_remap_state" = "NUMPAD_8456" ]
+	then
+		npad=1
+	elif [ "$old_remap_state" = "WASD" ]
+	then
+		wasd=1
+	elif [ "$old_remap_state" = "IJKL" ]
+	then
+		ijkl=1
+	else
+		norm=1
+	fi
+fi
+
+#revert to normal mapping, needed even if changing mapping
 xmodmap -e "keycode 25 = w W w W lstroke Lstroke"
 xmodmap -e "keycode 38 = a A a A ae AE" 
 xmodmap -e "keycode 39 = s S s S scaron Scaron" 
@@ -86,7 +110,7 @@ xmodmap -e "keycode 83 = KP_Left KP_4"
 xmodmap -e "keycode 84 = KP_Begin KP_5"
 xmodmap -e "keycode 85 = KP_Right KP_6"
 
-if [ $wasd -eq $npad -a $npad -eq $ijkl ]
+if [ $norm -eq 1 ]
 then
 	remap_state="ARROW_KEYS"
 fi
@@ -124,4 +148,10 @@ then
 else
 	echo "$remap_state" > $file
 fi
-echo "$old_remap_state => $remap_state"
+
+if [ $refresh -eq 0 ]
+then
+	echo "$old_remap_state => $remap_state"
+else
+	echo "State $remap_state refreshed"
+fi
