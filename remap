@@ -96,19 +96,22 @@ then
 	fi
 fi
 
-#revert to normal mapping, needed even if changing mapping
-xmodmap -e "keycode 25 = w W w W lstroke Lstroke"
-xmodmap -e "keycode 38 = a A a A ae AE" 
-xmodmap -e "keycode 39 = s S s S scaron Scaron" 
-xmodmap -e "keycode 40 = d D d D eth ETH" 
-xmodmap -e "keycode 31 = i I i I"
-xmodmap -e "keycode 44 = j J j J"
-xmodmap -e "keycode 45 = k K k K"
-xmodmap -e "keycode 46 = l L l L"
-xmodmap -e "keycode 80 = KP_Up KP_8"
-xmodmap -e "keycode 83 = KP_Left KP_4"
-xmodmap -e "keycode 84 = KP_Begin KP_5"
-xmodmap -e "keycode 85 = KP_Right KP_6"
+if [ $refresh -eq 0 -a "$old_remap_state" != "ARROW_KEYS" ]
+then
+	#revert to normal mapping, needed even if changing mapping
+	xmodmap -e "keycode 25 = w W w W lstroke Lstroke"
+	xmodmap -e "keycode 38 = a A a A ae AE" 
+	xmodmap -e "keycode 39 = s S s S scaron Scaron" 
+	xmodmap -e "keycode 40 = d D d D eth ETH" 
+	xmodmap -e "keycode 31 = i I i I"
+	xmodmap -e "keycode 44 = j J j J"
+	xmodmap -e "keycode 45 = k K k K"
+	xmodmap -e "keycode 46 = l L l L"
+	xmodmap -e "keycode 80 = KP_Up KP_8"
+	xmodmap -e "keycode 83 = KP_Left KP_4"
+	xmodmap -e "keycode 84 = KP_Begin KP_5"
+	xmodmap -e "keycode 85 = KP_Right KP_6"
+fi
 
 if [ $norm -eq 1 ]
 then
